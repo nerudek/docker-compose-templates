@@ -3,7 +3,6 @@ name: docker-compose
 description: Production-ready Docker Compose templates for web apps, databases, reverse proxies, and AI model serving — one command to spin up your entire stack
 version: 1.0.0
 author: nerudek
-compatible-with: hermes-agent, claude-code, openclaw
 ---
 
 # Docker Compose — Ready-to-Deploy Stack Templates
