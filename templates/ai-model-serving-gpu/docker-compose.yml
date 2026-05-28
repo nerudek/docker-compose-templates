@@ -1,0 +1,29 @@
+version: '3.8'
+
+services:
+  llm:
+    image: ghcr.io/ggerganov/llama.cpp:full
+    ports: ['8080:8080']
+    volumes:
+      - ./models:/models:ro
+    command: >
+      --server --port 8080
+      --model /models/${MODEL_FILENAME}
+      --n-gpu-layers ${GPU_LAYERS:-99}
+      --ctx-size ${CTX_SIZE:-32768}
+    deploy:
+      resources:
+        reservations:
+          devices:
+            - driver: nvidia
+              count: 1
+              capabilities: [gpu]
+    restart: unless-stopped
+    healthcheck:
+      test: ['CMD', 'curl', '-f', 'http://localhost:8080/health']
+      interval: 30s
+      timeout: 15s
+      retries: 3
+
+volumes:
+  models:
